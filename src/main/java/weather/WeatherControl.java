@@ -21,14 +21,14 @@ import java.time.Duration;
 public class WeatherControl {
     private final WeatherService weathers;
 
-    public WeatherControl(WeatherService weathers) {
+    public WeatherControl(final WeatherService weathers) {
         this.weathers = weathers;
     }
 
     @GetMapping(value = "/all", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Weather> all() {
-        Flux<Weather> data = this.weathers.all();
-        Flux<Long> delay = Flux.interval(Duration.ofSeconds(3));
+        final Flux<Weather> data = this.weathers.all();
+        final Flux<Long> delay = Flux.interval(Duration.ofSeconds(3));
         return Flux.zip(data, delay).map(Tuple2::getT1);
     }
 
